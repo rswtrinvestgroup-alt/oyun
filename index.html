@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIWIWORLD Akademi - Büyük Strateji Yarışı</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="confetti-container" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="logo-badge">SIWIWORLD</div>
+    <span class="logo-sub">Akademi</span>
+  </header>
+
+  <main class="game-container">
+    <!-- Tekrar oynama engeli -->
+    <section id="screen-blocked" class="screen hidden">
+      <div class="card card-center">
+        <div class="icon-large">🏁</div>
+        <h1>Yarışı Zaten Tamamladın!</h1>
+        <p class="lead">Bu simülasyonda tek giriş hakkın kullanıldı. Kazandığın indirim kodunu e-posta ile de paylaştık.</p>
+        <p id="blocked-discount" class="discount-display"></p>
+        <p id="blocked-user" class="muted"></p>
+        <button type="button" class="btn btn-primary btn-restart">Yeni Yarış Başlat</button>
+      </div>
+    </section>
+
+    <!-- Giriş -->
+    <section id="screen-welcome" class="screen active">
+      <div class="card">
+        <h1>Büyük Strateji Yarışı</h1>
+        <p class="intro-text">
+          Pazarlama dünyasında doğru stratejiye oynamak her şeydir! Akademimizin mezuniyet simülasyonuna hoş geldin.
+          Aşağıdaki 4 farklı pazarlama <strong>"atından"</strong> (stratejisinden) birini seç, jokeri belirle ve yarışı başlat.
+          Yarış sonucuna göre eğitimlerimizde geçerli dev indirimler kazanacaksın. Unutma, yarış orta zorluktadır;
+          sadece şans değil, seçtiğin joker ve strateji uyumu kazanma şansını belirler! Katılmak için önce bilgilerini gir.
+        </p>
+        <form id="form-register" class="form-grid" novalidate>
+          <label>
+            <span>Ad Soyad <em>*</em></span>
+            <input type="text" id="input-name" name="name" required autocomplete="name" placeholder="Adınız Soyadınız">
+          </label>
+          <label>
+            <span>Telefon <em>*</em></span>
+            <input type="tel" id="input-phone" name="phone" required autocomplete="tel" placeholder="05XX XXX XX XX">
+          </label>
+          <label>
+            <span>E-posta <em>*</em></span>
+            <input type="email" id="input-email" name="email" required autocomplete="email" placeholder="ornek@email.com">
+          </label>
+          <p id="form-error" class="form-error hidden" role="alert"></p>
+          <button type="submit" class="btn btn-primary btn-full">Strateji Seçimine Geç →</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- At seçimi -->
+    <section id="screen-strategy" class="screen hidden">
+      <div class="card">
+        <p class="step-label">Aşama 1 / 3</p>
+        <h2>Atını (Stratejini) Seç</h2>
+        <p class="subtitle">Dört pazarlama stratejisinden birini kulvarına yerleştir.</p>
+        <div class="strategy-grid" role="radiogroup" aria-label="Strateji seçimi">
+          <button type="button" class="strategy-card" data-strategy="meta" aria-pressed="false">
+            <span class="strategy-icon">⚡</span>
+            <h3>Meta Ads Fırtınası</h3>
+            <p>Başlangıçta çok hızlı; ortada enerji tükenebilir. Agresif reklam.</p>
+            <span class="tag tag-fast">Hızlı başlangıç</span>
+          </button>
+          <button type="button" class="strategy-card" data-strategy="seo" aria-pressed="false">
+            <span class="strategy-icon">🌲</span>
+            <h3>SEO Çınarı</h3>
+            <p>Başta yavaş; sonlara doğru inanılmaz hızlanır. Uzun vadeli yatırım.</p>
+            <span class="tag tag-late">Geç hızlanma</span>
+          </button>
+          <button type="button" class="strategy-card" data-strategy="influencer" aria-pressed="false">
+            <span class="strategy-icon">🎲</span>
+            <h3>Influencer Rüzgarı</h3>
+            <p>Sürprizlerle dolu; aniden hızlanır veya yavaşlar. Viral etki.</p>
+            <span class="tag tag-random">Değişken</span>
+          </button>
+          <button type="button" class="strategy-card" data-strategy="email" aria-pressed="false">
+            <span class="strategy-icon">📧</span>
+            <h3>E-Mail Marketing Asili</h3>
+            <p>Sabit, dengeli hız; sürpriz yok ama istikrarlı. Sadık kitle.</p>
+            <span class="tag tag-steady">İstikrarlı</span>
+          </button>
+        </div>
+        <div class="nav-actions">
+          <button type="button" class="btn btn-ghost" id="btn-back-welcome">← Geri</button>
+          <button type="button" class="btn btn-primary" id="btn-to-joker" disabled>Joker Seçimine Geç →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Joker seçimi -->
+    <section id="screen-joker" class="screen hidden">
+      <div class="card">
+        <p class="step-label">Aşama 2 / 3</p>
+        <h2>Jokerini (Yeteneğini) Seç</h2>
+        <p class="subtitle">Seçtiğin atın performansını etkileyecek bir joker belirle.</p>
+        <div class="joker-grid" role="radiogroup" aria-label="Joker seçimi">
+          <button type="button" class="joker-card" data-joker="budget" aria-pressed="false">
+            <span class="joker-letter">A</span>
+            <h3>Bütçe Canavarı</h3>
+            <p>Atının başlangıç hızını %15 artırır.</p>
+          </button>
+          <button type="button" class="joker-card" data-joker="crisis" aria-pressed="false">
+            <span class="joker-letter">B</span>
+            <h3>Kriz Yönetimi</h3>
+            <p>Yarış ortasındaki yavaşlama ihtimalini ortadan kaldırır.</p>
+          </button>
+          <button type="button" class="joker-card" data-joker="organic" aria-pressed="false">
+            <span class="joker-letter">C</span>
+            <h3>Organik Büyüme</h3>
+            <p>Finiş öncesi son düzlükte %20 ekstra depar gücü verir.</p>
+          </button>
+        </div>
+        <div id="synergy-hint" class="synergy-hint hidden"></div>
+        <div class="nav-actions">
+          <button type="button" class="btn btn-ghost" id="btn-back-strategy">← Geri</button>
+          <button type="button" class="btn btn-primary" id="btn-to-race" disabled>Yarış Pistine Geç →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Yarış -->
+    <section id="screen-race" class="screen hidden">
+      <div class="race-wrapper">
+        <div class="race-header">
+          <p class="step-label">Aşama 3 / 3</p>
+          <h2>Strateji Yarışı Başlıyor!</h2>
+          <p id="race-selection-summary" class="subtitle"></p>
+        </div>
+        <div class="track-arena">
+          <div class="finish-line" aria-label="Finiş çizgisi">
+            <span>🏁</span>
+            <span class="finish-label">FİNİŞ</span>
+          </div>
+          <div id="race-lanes" class="race-lanes"></div>
+        </div>
+        <div class="race-controls">
+          <button type="button" class="btn btn-primary btn-large" id="btn-start-race">Yarışı Başlat!</button>
+          <p id="race-status" class="race-status">Hazır olduğunda yarışı başlat.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sonuç -->
+    <section id="screen-result" class="screen hidden">
+      <div class="card card-result">
+        <div id="result-medal" class="result-medal">🏆</div>
+        <h2 id="result-title">Şampiyon Pazarlamacı!</h2>
+        <p id="result-message" class="result-message"></p>
+        <div class="code-box">
+          <span class="code-label">İndirim Kodun</span>
+          <code id="result-code">SIWI30</code>
+          <button type="button" class="btn btn-small" id="btn-copy-code">Kopyala</button>
+        </div>
+        <p class="muted small">Formdaki bilgileriniz alındı; eğitim danışmanlarımız sizinle iletişime geçecektir.</p>
+        <div id="result-standings" class="standings"></div>
+        <button type="button" class="btn btn-ghost btn-restart">Yeni Yarış Başlat</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© SIWIWORLD Akademi — Pazarlama Stratejileri Simülasyonu</p>
+  </footer>
+
+  <script src="game.js"></script>
+</body>
+</html>
